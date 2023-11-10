@@ -41,7 +41,7 @@ namespace MediTechSolution_mainProject.API.Controller
         // Get All User from database
         //============================
 
-        [HttpGet]
+        [HttpGet, Route("getUsers")]
         public async Task<IActionResult> GetAllUser()
         {
             try
@@ -99,8 +99,9 @@ namespace MediTechSolution_mainProject.API.Controller
         // API for login User
         //===================
 
+
         [HttpPost, Route("login")]
-        public async Task<IActionResult> Login([FromBody]  LoginRequestDTO loginRequestDTO)
+        public async Task<IActionResult> Login([FromForm]  LoginRequestDTO loginRequestDTO)
         {
             var userLogin = login.LoginAuthenticate(loginRequestDTO.Username, loginRequestDTO.Password);
 

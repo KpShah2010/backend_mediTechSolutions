@@ -17,6 +17,8 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<CourseDetailsModel, AddCourseDetailRequestDTO>().ReverseMap();
             CreateMap<Doctor, AddDoctorRegisterDTO>().ReverseMap();
             CreateMap<FindADoctor, AddFindADoctorRequestDTO>().ReverseMap();
+            CreateMap<AddAppointmentToClient, AddAppointmnetToClientDTO>().ReverseMap();
+            CreateMap<ContactModel, AddContactRequestDTO>().ReverseMap();
         }
     }
 }

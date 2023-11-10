@@ -29,6 +29,8 @@ builder.Services.AddScoped<ICollegesUniversity, CollegeUniversityRepository>();
 builder.Services.AddScoped<ICourseDetails, CourseDetailsRepository>();
 builder.Services.AddScoped<IDoctor, DoctorRepository>();
 builder.Services.AddScoped<IFindADoctor, FindADoctorRepository>();
+builder.Services.AddScoped<IAppointmentToClient, AddAppointmentToClientRepository>();
+builder.Services.AddScoped<IContact, ContactRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddCors(options =>

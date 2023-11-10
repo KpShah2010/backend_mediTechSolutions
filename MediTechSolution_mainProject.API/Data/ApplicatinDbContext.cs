@@ -16,5 +16,7 @@ namespace MediTechSolution_mainProject.API.Data
         public DbSet<CollegesModel> Colleges { get; set; }
         public DbSet<CourseDetailsModel> CourseDetails { get; set; }
         public DbSet<FindADoctor> FindDoctors { get; set; }
+        public DbSet<AddAppointmentToClient> AppointmentToClient { get; set; }
+        public DbSet<ContactModel> Contacts { get; set; }
     }
 }
