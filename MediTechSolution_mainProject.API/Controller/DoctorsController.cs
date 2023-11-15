@@ -6,6 +6,9 @@ using MediTechSolution_mainProject.API.Services.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MediTechSolution_mainProject.API.Controller
 {
@@ -15,11 +18,15 @@ namespace MediTechSolution_mainProject.API.Controller
     {
         private readonly IDoctor doctor;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
+        private readonly IDoctorLogin doctorLogin;
 
-        public DoctorsController(IDoctor doctor, IMapper mapper)
+        public DoctorsController(IDoctor doctor, IMapper mapper, IConfiguration configuration, IDoctorLogin doctorLogin)
         {
             this.doctor = doctor;
             this.mapper = mapper;
+            this.configuration = configuration;
+            this.doctorLogin = doctorLogin;
         }
 
 
@@ -95,6 +102,66 @@ namespace MediTechSolution_mainProject.API.Controller
         {
             await doctor.UpdateDoctorAsync(id, true);
             return Ok(new { message = "Doctor Accepted" });
+        }
+
+
+
+
+        // Doctor's Login
+
+        [HttpPost, Route("login")]
+        public async Task<IActionResult> DoctorLogin([FromForm] DoctorLoginRequestDTO doctorLoginRequestDTO)
+        {
+            var doctorsLogin = doctorLogin.DoctorLoginAuthenticate(doctorLoginRequestDTO.Username,
+                doctorLoginRequestDTO.Password,
+                doctorLoginRequestDTO.LicenseNumber);
+
+            if (doctorsLogin == null)
+            {
+                return BadRequest(new { message = "Username and password is incorrect" });
+            }
+
+            var doctorsFromDB = await doctor.GetDoctorByIdAsync(doctorsLogin.Id);
+
+            if (doctorsFromDB == null)
+            {
+                return BadRequest(new { message = "Doctor not found" });
+            }
+
+            if (!doctorsFromDB.isAccepted == true)
+            {
+                return BadRequest(new { message = "Not Accepted from admin side" });
+            }
+
+            string token = GenerateToken(doctorsLogin);
+            return Ok(new { Token = token });
+        }
+
+        //=====================
+        // Generating JWT Token
+        //=====================
+
+        private string GenerateToken(Doctor doctor)
+        {
+            var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JWTToken:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.Aes128CbcHmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, doctor.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: configuration["JWTToken:Issuer"],
+                audience: configuration["JWTToken:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1), // Token expiration time
+                signingCredentials: credentials
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
     }
 }

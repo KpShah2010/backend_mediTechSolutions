@@ -4,6 +4,7 @@ using MediTechSolution_mainProject.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     [DbContext(typeof(ApplicatinDbContext))]
-    partial class ApplicatinDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115050140_init-1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,23 +307,6 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MedicalDoctorSpecialities");
-                });
-
-            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.MediceneCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("MediceneCategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MediceneCategory");
                 });
 
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.User", b =>

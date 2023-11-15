@@ -23,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<ILogin, LoginRepository>();
+builder.Services.AddScoped<IDoctorLogin, DoctorLoginRepository>();
 builder.Services.AddScoped<IHospitalCity, AddHospitalCitiesRepository>();
 builder.Services.AddScoped<IMedicalSpeciality, MedicalSpecialityRepository>();
 builder.Services.AddScoped<ICollegesUniversity, CollegeUniversityRepository>();
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IDoctor, DoctorRepository>();
 builder.Services.AddScoped<IFindADoctor, FindADoctorRepository>();
 builder.Services.AddScoped<IAppointmentToClient, AddAppointmentToClientRepository>();
 builder.Services.AddScoped<IContact, ContactRepository>();
+builder.Services.AddScoped<IMediceneCategory, MediceneCategoryRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddCors(options =>
