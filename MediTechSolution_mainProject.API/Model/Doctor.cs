@@ -20,5 +20,6 @@ namespace MediTechSolution_mainProject.API.Model
         public string LicenseNumber { get; set; }
         public string Speciality { get; set; }
         public string DoctorImage { get; set; }
+        public bool isAccepted { get; set; } 
     }
 }

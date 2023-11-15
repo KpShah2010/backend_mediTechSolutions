@@ -8,5 +8,6 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
         Task<List<Doctor>> GetAllDoctorAsync();
         Task<Doctor> GetDoctorByIdAsync(int id);
         Task<List<Doctor>> GetDoctorByName(string name);
+        Task<Doctor> UpdateDoctorAsync(int id, bool isAccepted);
     }
 }

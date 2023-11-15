@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     [DbContext(typeof(ApplicatinDbContext))]
-    [Migration("20231107100946_init-2")]
-    partial class init2
+    [Migration("20231112044556_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,31 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("Colleges");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.ContactModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Query")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CourseDetailsModel", b =>
                 {
                     b.Property<int>("Id")
@@ -231,6 +256,9 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isAccepted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

@@ -2,6 +2,7 @@
 using MediTechSolution_mainProject.API.DTO;
 using MediTechSolution_mainProject.API.Model;
 using MediTechSolution_mainProject.API.Services.Interfaces;
+using MediTechSolution_mainProject.API.Services.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
                 var doctorDTO = mapper.Map<AddDoctorRegisterDTO>(doctorDomain);
 
-                return Ok(new { message = "Successfully register", doctorDTO });
+                return StatusCode(400, "success register");
             }
             catch (Exception ex)
             {
@@ -77,7 +78,7 @@ namespace MediTechSolution_mainProject.API.Controller
                 var doctorById = await doctor.GetDoctorByIdAsync(id);
 
                 if (doctorById == null)
-                {
+                { 
                     return NotFound(new { message = "Id Not Found" });
                 }
                 return Ok(doctorById);
@@ -88,5 +89,12 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        [HttpPut("accept/{id}")]
+        public async Task<IActionResult> UpdateIsAccepted(int id)   
+        {
+            await doctor.UpdateDoctorAsync(id, true);
+            return Ok(new { message = "Doctor Accepted" });
+        }
     }
 }

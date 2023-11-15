@@ -1,6 +1,7 @@
 ﻿using MediTechSolution_mainProject.API.Data;
 using MediTechSolution_mainProject.API.Model;
 using MediTechSolution_mainProject.API.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediTechSolution_mainProject.API.Services.Repositories
@@ -55,6 +56,21 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
                 return null;
             }
             return doctors;
+        }
+
+        public async Task<Doctor> UpdateDoctorAsync(int id, bool isAccepted)
+        {
+            var existingId = await dbContext.Doctors.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            existingId.isAccepted = isAccepted;
+            await dbContext.SaveChangesAsync();
+
+            return existingId;
         }
     }
 }

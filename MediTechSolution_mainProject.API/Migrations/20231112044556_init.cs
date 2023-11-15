@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,22 @@ namespace MediTechSolution_mainProject.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AddHospitalCityNames", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentToClient",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeSlotGap = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentToClient", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,6 +65,21 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Query = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Doctors",
                 columns: table => new
                 {
@@ -65,7 +96,8 @@ namespace MediTechSolution_mainProject.API.Migrations
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Speciality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DoctorImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    isAccepted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,6 +215,12 @@ namespace MediTechSolution_mainProject.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AddHospitalCityNames");
+
+            migrationBuilder.DropTable(
+                name: "AppointmentToClient");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
 
             migrationBuilder.DropTable(
                 name: "CourseDetails");

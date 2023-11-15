@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddDbContext<ApplicatinDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MediTechConnectionString3")));
+builder.Services.AddDbContext<ApplicatinDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MediTechConnectionString")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
