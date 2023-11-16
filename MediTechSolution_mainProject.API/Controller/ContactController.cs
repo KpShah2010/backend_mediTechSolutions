@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EllipticCurve.Utils;
+using MediTechSolution_mainProject.API.Data;
 using MediTechSolution_mainProject.API.DTO;
 using MediTechSolution_mainProject.API.Model;
 using MediTechSolution_mainProject.API.Services.Interfaces;
@@ -30,6 +32,18 @@ namespace MediTechSolution_mainProject.API.Controller
                 await contact.CreateContactAsync(contactDomain);
 
                 var contactDTO = mapper.Map<AddContactRequestDTO>(contactDomain);
+
+                string emailSubject = "Contact Information";
+                string name = contactDTO.Name;
+                string emailMessage = $"Dear {name} \n Your Query Recieved us. Thanks for contacting us \n Our Team will contact " +
+                    $"you very soon." +
+                    $" \n Best Regards. \n\n\n Your Message: \n {contactDTO.Query}";
+
+
+
+
+                EmailSender emailSender = new EmailSender();
+                emailSender.SendEmail(emailSubject, contactDTO.Email, name, emailMessage).Wait();
 
                 return Ok(new { message = "successfully inserted", contactDTO });
             }

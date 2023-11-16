@@ -19,5 +19,6 @@ namespace MediTechSolution_mainProject.API.Data
         public DbSet<AddAppointmentToClient> AppointmentToClient { get; set; }
         public DbSet<ContactModel> Contacts { get; set; }
         public DbSet<MediceneCategory> MediceneCategory { get; set; }
+        public DbSet<MediceneByCategory> MediceneByCategory { get; set; }
     }
 }
