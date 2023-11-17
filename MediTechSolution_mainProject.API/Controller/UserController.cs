@@ -87,6 +87,16 @@ namespace MediTechSolution_mainProject.API.Controller
 
                 var users = await userRepository.CreateUserAsync(userDomainModel);
                 var userDTO = mapper.Map<AddUserRequestDTO>(userDomainModel);
+
+                string emailSubject = "User Registeration Confirmation";
+                string name = userDTO.Username;
+                string emailMessage = $"Dear {name} \n You are Register Successfully " +
+                    $" \n\n Best Regards.\n From Medi.Tech Solutions \n\n Your City is : {userDTO.City}";
+
+                EmailSender emailSender = new EmailSender();
+                emailSender.SendEmail(emailSubject, userDTO.Email, name, emailMessage).Wait();
+
+
                 return Ok("successfully");
             }
             catch (Exception e)
@@ -139,6 +149,21 @@ namespace MediTechSolution_mainProject.API.Controller
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> deleteUser(int id)
+        {
+            var userDeleted = await userRepository.DeleteUserByIdAsync(id);
+
+            if (userDeleted == null)
+            {
+                return NotFound(new { message = "Id not found" });
+            }
+
+            return Ok(userDeleted);
         }
     }
 }

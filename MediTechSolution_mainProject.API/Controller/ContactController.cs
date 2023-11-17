@@ -35,9 +35,10 @@ namespace MediTechSolution_mainProject.API.Controller
 
                 string emailSubject = "Contact Information";
                 string name = contactDTO.Name;
-                string emailMessage = $"Dear {name} \n Your Query Recieved us. Thanks for contacting us \n Our Team will contact " +
+                string emailMessage = $"Dear {name} \n Your Query Recieved us. " +
+                    $"Thanks for contacting us \n Our Team will contact " +
                     $"you very soon." +
-                    $" \n Best Regards. \n\n\n Your Message: \n {contactDTO.Query}";
+                    $" \n\n Best Regards.\n From Medi.Tech Solutions \n\n Your Query: \n {contactDTO.Query}";
 
 
 
@@ -66,6 +67,20 @@ namespace MediTechSolution_mainProject.API.Controller
             {
                 return BadRequest(new { message = "Error! Something went wrong in fetching!", e });
             }
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> deleteContact(int id)
+        {
+            var deleteContactID = await contact.DeleteContactAsync(id);
+
+            if (deleteContactID == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(deleteContactID);
         }
     }
 }

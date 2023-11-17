@@ -22,9 +22,51 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             return contactModel;
         }
 
+        public async Task<ContactModel> DeleteContactAsync(int id)
+        {
+            var contactDeleteId = await dbContext.Contacts.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (contactDeleteId == null)
+            {
+                return null;
+            }
+
+            dbContext.Contacts.Remove(contactDeleteId);
+            await dbContext.SaveChangesAsync();
+
+            return contactDeleteId;
+        }
+
         public async Task<List<ContactModel>> GetAllContactFormAsync()
         {
             return await dbContext.Contacts.ToListAsync();
+        }
+
+        public async Task<ContactModel> GetContactFormByIdAsync(int id)
+        {
+            var contactById = await dbContext.Contacts.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (contactById == null)
+            {
+                return null;
+            }
+
+            return contactById;
+        }
+
+        public async Task<ContactModel> UpdateContactByIdAsync(int id, ContactModel contactModel)
+        {
+            var contactUpdateId = await dbContext.Contacts.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (contactUpdateId == null)
+            {
+                return null;
+            }
+
+            contactUpdateId.Name = contactModel.Name;
+            contactUpdateId.Email = contactModel.Email;
+            contactUpdateId.Query = contactModel.Query;
+
+            await dbContext.SaveChangesAsync();
+
+            return contactUpdateId;
         }
     }
 }
