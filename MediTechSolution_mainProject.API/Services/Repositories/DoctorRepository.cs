@@ -23,6 +23,21 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             return doctor;
         }
 
+        public async Task<Doctor> DeleteDoctorAsync(int id)
+        {
+            var existId = await dbContext.Doctors.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existId == null)
+            {
+                return null;
+            }
+
+            dbContext.Doctors.Remove(existId);
+            await dbContext.SaveChangesAsync();
+
+            return existId;
+        }
+
         public async Task<List<Doctor>> GetAllDoctorAsync()
         {
             return await dbContext.Doctors.ToListAsync();

@@ -21,6 +21,7 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<ContactModel, AddContactRequestDTO>().ReverseMap();
             CreateMap<MediceneCategory, AddMediceneCategoryRequestDTO>().ReverseMap();
             CreateMap<MediceneByCategory, AddMediceneByCategoryDTO>().ReverseMap();
+            CreateMap<MedicalDoctorSpeciality, EditMedicalSpecialityDTO>().ReverseMap();
         }
     }
 }

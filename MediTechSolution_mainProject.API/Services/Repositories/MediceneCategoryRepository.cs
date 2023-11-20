@@ -38,7 +38,7 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
 
         public async Task<List<MediceneCategory>> GetMediceneCategoryAsync()
         {
-            return await dbContext.MediceneCategory.ToListAsync();
+            return await dbContext.MediceneCategory.OrderBy(x => x.MediceneCategoryName).ToListAsync();
         }
 
         public async Task<MediceneCategory> GetMediceneCategoryByIdAsync(int id)

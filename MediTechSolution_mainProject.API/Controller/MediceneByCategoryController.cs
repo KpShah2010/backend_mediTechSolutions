@@ -54,7 +54,7 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
-        [HttpDelete, Route("delete")]
+        [HttpDelete, Route("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
