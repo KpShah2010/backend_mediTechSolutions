@@ -36,8 +36,6 @@ builder.Services.AddScoped<IMediceneCategory, MediceneCategoryRepository>();
 builder.Services.AddScoped<IMediceneByCategory, MediceneByCategoryRepository>();
 
 
-
-
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddCors(options =>
 {

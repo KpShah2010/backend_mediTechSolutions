@@ -135,7 +135,8 @@ namespace MediTechSolution_mainProject.API.Controller
             }
 
             string token = GenerateToken(doctorsLogin);
-            return Ok(new { Token = token });
+
+            return Ok(new { Token = token, DoctorName = doctorsLogin.DoctorName, DoctorImage = doctorsLogin .DoctorImage});
         }
 
         //=====================
@@ -147,9 +148,11 @@ namespace MediTechSolution_mainProject.API.Controller
             var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JWTToken:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.Aes128CbcHmacSha256);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, doctor.Username),
+                new Claim("DoctorName", doctor.DoctorName),
+                new Claim("DoctorImage", doctor.DoctorImage),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
