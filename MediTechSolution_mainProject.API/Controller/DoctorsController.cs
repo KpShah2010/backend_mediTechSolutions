@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -136,7 +137,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
             string token = GenerateToken(doctorsLogin);
 
-            return Ok(new { Token = token, DoctorName = doctorsLogin.DoctorName, DoctorImage = doctorsLogin .DoctorImage});
+            return Ok(new { Token = token, doctorDetail = JsonConvert.SerializeObject(doctorsFromDB) });
         }
 
         //=====================
@@ -144,15 +145,14 @@ namespace MediTechSolution_mainProject.API.Controller
         //=====================
 
         private string GenerateToken(Doctor doctor)
-        {
+        {   
             var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["JWTToken:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.Aes128CbcHmacSha256);
 
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, doctor.Username),
-                new Claim("DoctorName", doctor.DoctorName),
-                new Claim("DoctorImage", doctor.DoctorImage),
+                new Claim("DoctorDetails", JsonConvert.SerializeObject(doctor)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

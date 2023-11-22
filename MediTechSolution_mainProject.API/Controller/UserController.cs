@@ -26,14 +26,16 @@ namespace MediTechSolution_mainProject.API.Controller
         private readonly IMapper mapper;
         private readonly ILogin login;
         private readonly IConfiguration configuration;
+        private readonly IForgotPasswordEmailVerification forgotPasswordEmailVerification;
 
         public UserController(IUser userRepository, IMapper mapper, ILogin login, 
-            IConfiguration configuration)
+            IConfiguration configuration, IForgotPasswordEmailVerification forgotPasswordEmailVerification)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
             this.login = login;
             this.configuration = configuration;
+            this.forgotPasswordEmailVerification = forgotPasswordEmailVerification;
         }
 
 
@@ -111,7 +113,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
 
         [HttpPost, Route("login")]
-        public async Task<IActionResult> Login([FromForm]  LoginRequestDTO loginRequestDTO)
+        public async Task<IActionResult> Login([FromForm] LoginRequestDTO loginRequestDTO)
         {
             var userLogin = login.LoginAuthenticate(loginRequestDTO.Username, loginRequestDTO.Password);
 
@@ -165,5 +167,68 @@ namespace MediTechSolution_mainProject.API.Controller
 
             return Ok(userDeleted);
         }
+
+
+
+        [HttpPost("ForgotPaswdEmail")]
+        public async Task<IActionResult> ForgotEmail([FromForm] ForgotPasswordEmailDTO forgotPasswordEmailDTO)
+        {
+            try
+            {
+                var domain = mapper.Map<ForgotPasswordEmail>(forgotPasswordEmailDTO);
+
+                var useremail = await forgotPasswordEmailVerification.ForgotPasswordVerification(domain.Email);
+
+                var resetLink = "http://localhost:3000/resetPasswordForm";
+
+                string emailSubject = "Forgot Password Link";
+                string name = "Medi.Tech Solutions";
+                string emailMessage = $"Link for forgot password \n\n" +
+                    $"Your Forgot Password link is - {resetLink}";
+
+
+                EmailSender emailSender = new EmailSender();
+                emailSender.SendEmail(emailSubject, forgotPasswordEmailDTO.Email, name, emailMessage).Wait();
+
+                if (useremail == null)
+                {
+                    return BadRequest(new { message = "Please enter registered email address" });
+                }
+
+                var dtomail = mapper.Map<ForgotPasswordEmailDTO>(domain);
+
+                return Ok(new { message = "email verify welcome back!", resetLink });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+
+
+        // password update / reset password
+        [HttpPut("resetPassword")]
+        public async Task<IActionResult> ResetPasswrd([FromForm] ResetPasswordDTO resetPasswordDTO, [FromForm]ForgotPasswordEmailDTO forgotPasswordEmailDTO)
+        {
+            try
+            {
+                var emailCheck = await forgotPasswordEmailVerification.ForgotPasswordVerification(forgotPasswordEmailDTO.Email);
+
+                if (emailCheck != null && emailCheck.Email == forgotPasswordEmailDTO.Email)
+                {
+                    await forgotPasswordEmailVerification.UpdatePassword(resetPasswordDTO.Password, emailCheck.Email);
+
+                    return Ok(new { message = "password updated" });
+                }
+                
+                return BadRequest(new { message = "please enter registered email address" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = "internal server error" });
+            }
+        }
+    
     }
 }
