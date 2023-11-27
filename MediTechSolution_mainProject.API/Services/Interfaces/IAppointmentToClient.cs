@@ -6,6 +6,7 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
     {
         Task<AddAppointmentToClient> CreateaddAppointmentToClientAsync(AddAppointmentToClient addAppointmentToClient);
         Task<List<AddAppointmentToClient>> GetAllAppointmentToClientAsync();
+        Task<AddAppointmentToClient> GetAppointmentToClientByIdAsync(int id);
         Task<AddAppointmentToClient> DeleteAppointmentToClientAsync(int id);
         Task<AddAppointmentToClient> UpdateAppointmentToClientAsync(int id, AddAppointmentToClient addAppointmentToClient);
     }

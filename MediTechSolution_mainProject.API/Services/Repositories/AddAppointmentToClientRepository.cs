@@ -38,7 +38,19 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
 
         public Task<List<AddAppointmentToClient>> GetAllAppointmentToClientAsync()
         {
-            return dbContext.AppointmentToClient.ToListAsync();
+            return dbContext.AppointmentToClient.Include(x => x.Doctor).ToListAsync();
+        }
+
+        public async Task<AddAppointmentToClient> GetAppointmentToClientByIdAsync(int id)
+        {
+            var existingId = await dbContext.AppointmentToClient.Include(x => x.Doctor).Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            return existingId;
         }
 
         public async Task<AddAppointmentToClient> UpdateAppointmentToClientAsync(int id, AddAppointmentToClient addAppointmentToClient)

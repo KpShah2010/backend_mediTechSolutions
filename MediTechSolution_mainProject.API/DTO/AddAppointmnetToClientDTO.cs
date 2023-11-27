@@ -6,5 +6,6 @@
         public DateTime EndDate { get; set; }
         public int TimeSlotGap { get; set; }
         public Double Price { get; set; }
+        public int DoctorID { get; set; }
     }
 }

@@ -30,6 +30,9 @@ namespace MediTechSolution_mainProject.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -43,6 +46,8 @@ namespace MediTechSolution_mainProject.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorID");
 
                     b.ToTable("AppointmentToClient");
                 });
@@ -411,6 +416,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddAppointmentToClient", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CourseDetailsModel", b =>

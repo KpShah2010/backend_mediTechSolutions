@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     [DbContext(typeof(ApplicatinDbContext))]
-    [Migration("20231115042619_init")]
+    [Migration("20231127060827_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -33,6 +33,9 @@ namespace MediTechSolution_mainProject.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -46,6 +49,8 @@ namespace MediTechSolution_mainProject.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorID");
 
                     b.ToTable("AppointmentToClient");
                 });
@@ -309,6 +314,57 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("MedicalDoctorSpecialities");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.MediceneByCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MediceneCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediceneName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MedicenePrescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediceneRelated")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SideEffect")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MediceneCategoryId");
+
+                    b.ToTable("MediceneByCategory");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.MediceneCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("MediceneCategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MediceneCategory");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +421,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddAppointmentToClient", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CourseDetailsModel", b =>
                 {
                     b.HasOne("MediTechSolution_mainProject.API.Model.CollegesModel", "CollegesModel")
@@ -393,6 +460,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("MedicalDoctorSpeciality");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.MediceneByCategory", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.MediceneCategory", "MediceneCategory")
+                        .WithMany()
+                        .HasForeignKey("MediceneCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MediceneCategory");
                 });
 #pragma warning restore 612, 618
         }

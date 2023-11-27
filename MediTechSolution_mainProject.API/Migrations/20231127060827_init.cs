@@ -27,22 +27,6 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentToClient",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeSlotGap = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentToClient", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Colleges",
                 columns: table => new
                 {
@@ -119,6 +103,19 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MediceneCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MediceneCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MediceneCategory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -169,6 +166,29 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppointmentToClient",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeSlotGap = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentToClient", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppointmentToClient_Doctors_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FindDoctors",
                 columns: table => new
                 {
@@ -194,6 +214,34 @@ namespace MediTechSolution_mainProject.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MediceneByCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MediceneName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MedicenePrescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MediceneRelated = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SideEffect = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MediceneCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MediceneByCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MediceneByCategory_MediceneCategory_MediceneCategoryId",
+                        column: x => x.MediceneCategoryId,
+                        principalTable: "MediceneCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentToClient_DoctorID",
+                table: "AppointmentToClient",
+                column: "DoctorID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_CourseDetails_CollegeUniversityId",
                 table: "CourseDetails",
@@ -208,6 +256,11 @@ namespace MediTechSolution_mainProject.API.Migrations
                 name: "IX_FindDoctors_SpecialityDoctorId",
                 table: "FindDoctors",
                 column: "SpecialityDoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MediceneByCategory_MediceneCategoryId",
+                table: "MediceneByCategory",
+                column: "MediceneCategoryId");
         }
 
         /// <inheritdoc />
@@ -229,6 +282,9 @@ namespace MediTechSolution_mainProject.API.Migrations
                 name: "FindDoctors");
 
             migrationBuilder.DropTable(
+                name: "MediceneByCategory");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
@@ -239,6 +295,9 @@ namespace MediTechSolution_mainProject.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "MedicalDoctorSpecialities");
+
+            migrationBuilder.DropTable(
+                name: "MediceneCategory");
         }
     }
 }

@@ -22,13 +22,16 @@ namespace MediTechSolution_mainProject.API.Controller
         private readonly IMapper mapper;
         private readonly IConfiguration configuration;
         private readonly IDoctorLogin doctorLogin;
+        private readonly IAppointmentToClient appointmentToClient;
 
-        public DoctorsController(IDoctor doctor, IMapper mapper, IConfiguration configuration, IDoctorLogin doctorLogin)
+        public DoctorsController(IDoctor doctor, IMapper mapper, 
+            IConfiguration configuration, IDoctorLogin doctorLogin, IAppointmentToClient appointmentToClient)
         {
             this.doctor = doctor;
             this.mapper = mapper;
             this.configuration = configuration;
             this.doctorLogin = doctorLogin;
+            this.appointmentToClient = appointmentToClient;
         }
 
 

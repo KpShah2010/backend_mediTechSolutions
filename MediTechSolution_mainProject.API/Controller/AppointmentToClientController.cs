@@ -38,5 +38,26 @@ namespace MediTechSolution_mainProject.API.Controller
             var allData = await appointmentToClient.GetAllAppointmentToClientAsync();
             return Ok(allData);
         }
+
+
+        [HttpGet("ById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var exisId = await appointmentToClient.GetAppointmentToClientByIdAsync(id);
+
+                if (exisId == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
+
+                return Ok(exisId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = "server problem" });
+            }
+        }
     }
 }

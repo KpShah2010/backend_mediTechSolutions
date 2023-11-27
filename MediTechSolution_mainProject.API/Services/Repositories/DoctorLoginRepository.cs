@@ -14,6 +14,12 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             this.dbContext = dbContext;
         }
 
+        public AddAppointmentToClient appointmentLogin(int id)
+        {
+            var appointment = dbContext.AppointmentToClient.Where(x => x.Id == id).FirstOrDefault();
+            return appointment;
+        }
+
         public Doctor DoctorLoginAuthenticate(string username, string password, string licenseNumber)
         {
             var doctor = dbContext.Doctors.SingleOrDefault(d => d.Username == username 
