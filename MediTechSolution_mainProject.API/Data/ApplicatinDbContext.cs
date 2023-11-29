@@ -20,5 +20,6 @@ namespace MediTechSolution_mainProject.API.Data
         public DbSet<ContactModel> Contacts { get; set; }
         public DbSet<MediceneCategory> MediceneCategory { get; set; }
         public DbSet<MediceneByCategory> MediceneByCategory { get; set; }
+        public DbSet<AddHospitalsLocations> HospitalsLocations { get; set; }
     }
 }

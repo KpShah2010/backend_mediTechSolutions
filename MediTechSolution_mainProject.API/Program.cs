@@ -35,6 +35,8 @@ builder.Services.AddScoped<IContact, ContactRepository>();
 builder.Services.AddScoped<IMediceneCategory, MediceneCategoryRepository>();
 builder.Services.AddScoped<IMediceneByCategory, MediceneByCategoryRepository>();
 builder.Services.AddScoped<IForgotPasswordEmailVerification, ForgotPasswordEmailRepository>();
+builder.Services.AddScoped<IHospitalsLocations, AddHospitalsLocationsRepository>();
+
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddCors(options =>

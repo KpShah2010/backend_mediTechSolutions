@@ -23,6 +23,7 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<MediceneByCategory, AddMediceneByCategoryDTO>().ReverseMap();
             CreateMap<MedicalDoctorSpeciality, EditMedicalSpecialityDTO>().ReverseMap();
             CreateMap<ForgotPasswordEmail, ForgotPasswordEmailDTO>().ReverseMap();
+            CreateMap<AddHospitalsLocations, AddHospitalLocationRequestDTO>().ReverseMap();
         }
     }
 }

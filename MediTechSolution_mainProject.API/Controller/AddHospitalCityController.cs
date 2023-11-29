@@ -27,7 +27,6 @@ namespace MediTechSolution_mainProject.API.Controller
         //==========================================
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllHospitlCity()
         {
             try
@@ -73,7 +72,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
                 var HospitalCityDTO = mapper.Map<AddHospitalCityRequestDTO>(hospitalCityModel);
 
-                return Ok(HospitalCityDTO);
+                return Ok(new { message = "added successfully" });
             }
             catch (Exception e)
             {
