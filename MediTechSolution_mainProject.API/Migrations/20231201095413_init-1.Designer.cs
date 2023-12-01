@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     [DbContext(typeof(ApplicatinDbContext))]
-    [Migration("20231127060827_init")]
-    partial class init
+    [Migration("20231201095413_init-1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,71 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AddHospitalCityNames");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddHospitalsLocations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HospitalsLocations");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddSingleSpecialityDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SId");
+
+                    b.ToTable("AddSingleSpecialityDetails");
                 });
 
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CollegesModel", b =>
@@ -365,6 +430,31 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("MediceneCategory");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.SingleSpecialityVideo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SVId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideoLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SVId");
+
+                    b.ToTable("SingleSpecialityVideos");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -432,6 +522,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddSingleSpecialityDetails", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.MedicalDoctorSpeciality", "MedicalDoctorSpeciality")
+                        .WithMany()
+                        .HasForeignKey("SId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalDoctorSpeciality");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CourseDetailsModel", b =>
                 {
                     b.HasOne("MediTechSolution_mainProject.API.Model.CollegesModel", "CollegesModel")
@@ -471,6 +572,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                         .IsRequired();
 
                     b.Navigation("MediceneCategory");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.SingleSpecialityVideo", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.MedicalDoctorSpeciality", "MedicalDoctorSpeciality")
+                        .WithMany()
+                        .HasForeignKey("SVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalDoctorSpeciality");
                 });
 #pragma warning restore 612, 618
         }

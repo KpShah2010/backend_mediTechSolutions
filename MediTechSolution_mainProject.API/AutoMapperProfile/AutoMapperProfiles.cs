@@ -24,6 +24,8 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<MedicalDoctorSpeciality, EditMedicalSpecialityDTO>().ReverseMap();
             CreateMap<ForgotPasswordEmail, ForgotPasswordEmailDTO>().ReverseMap();
             CreateMap<AddHospitalsLocations, AddHospitalLocationRequestDTO>().ReverseMap();
+            CreateMap<AddSingleSpecialityDetails, AddSingleSpecialityDTO>().ReverseMap();
+            CreateMap<SingleSpecialityVideo, AddSingleVideoSpecialityDTO>().ReverseMap();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace MediTechSolution_mainProject.API.Controller
                 await hospitalsLocations.CreateHospitalsLocationAsync(domainModel);
 
                 var DomainDTO = mapper.Map<AddHospitalLocationRequestDTO>(domainModel);
-                return Ok(new { message = "hospitals location are added", domainModel });
+                return Ok(DomainDTO);
             }
             catch (Exception e)
             {

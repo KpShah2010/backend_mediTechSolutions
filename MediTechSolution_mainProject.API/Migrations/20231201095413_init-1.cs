@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MediTechSolution_mainProject.API.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,6 +86,24 @@ namespace MediTechSolution_mainProject.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HospitalsLocations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LocationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocationLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HospitalsLocations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,6 +207,28 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AddSingleSpecialityDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AddSingleSpecialityDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AddSingleSpecialityDetails_MedicalDoctorSpecialities_SId",
+                        column: x => x.SId,
+                        principalTable: "MedicalDoctorSpecialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FindDoctors",
                 columns: table => new
                 {
@@ -209,6 +249,27 @@ namespace MediTechSolution_mainProject.API.Migrations
                     table.ForeignKey(
                         name: "FK_FindDoctors_MedicalDoctorSpecialities_SpecialityDoctorId",
                         column: x => x.SpecialityDoctorId,
+                        principalTable: "MedicalDoctorSpecialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SingleSpecialityVideos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VideoLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SVId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SingleSpecialityVideos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SingleSpecialityVideos_MedicalDoctorSpecialities_SVId",
+                        column: x => x.SVId,
                         principalTable: "MedicalDoctorSpecialities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -238,6 +299,11 @@ namespace MediTechSolution_mainProject.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AddSingleSpecialityDetails_SId",
+                table: "AddSingleSpecialityDetails",
+                column: "SId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AppointmentToClient_DoctorID",
                 table: "AppointmentToClient",
                 column: "DoctorID");
@@ -261,6 +327,11 @@ namespace MediTechSolution_mainProject.API.Migrations
                 name: "IX_MediceneByCategory_MediceneCategoryId",
                 table: "MediceneByCategory",
                 column: "MediceneCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SingleSpecialityVideos_SVId",
+                table: "SingleSpecialityVideos",
+                column: "SVId");
         }
 
         /// <inheritdoc />
@@ -268,6 +339,9 @@ namespace MediTechSolution_mainProject.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AddHospitalCityNames");
+
+            migrationBuilder.DropTable(
+                name: "AddSingleSpecialityDetails");
 
             migrationBuilder.DropTable(
                 name: "AppointmentToClient");
@@ -282,7 +356,13 @@ namespace MediTechSolution_mainProject.API.Migrations
                 name: "FindDoctors");
 
             migrationBuilder.DropTable(
+                name: "HospitalsLocations");
+
+            migrationBuilder.DropTable(
                 name: "MediceneByCategory");
+
+            migrationBuilder.DropTable(
+                name: "SingleSpecialityVideos");
 
             migrationBuilder.DropTable(
                 name: "Users");
@@ -294,10 +374,10 @@ namespace MediTechSolution_mainProject.API.Migrations
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "MedicalDoctorSpecialities");
+                name: "MediceneCategory");
 
             migrationBuilder.DropTable(
-                name: "MediceneCategory");
+                name: "MedicalDoctorSpecialities");
         }
     }
 }

@@ -21,5 +21,7 @@ namespace MediTechSolution_mainProject.API.Data
         public DbSet<MediceneCategory> MediceneCategory { get; set; }
         public DbSet<MediceneByCategory> MediceneByCategory { get; set; }
         public DbSet<AddHospitalsLocations> HospitalsLocations { get; set; }
+        public DbSet<AddSingleSpecialityDetails> AddSingleSpecialityDetails { get; set; }
+        public DbSet<SingleSpecialityVideo> SingleSpecialityVideos { get; set; }
     }
 }

@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddDbContext<ApplicatinDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DemoAppointment")));
+builder.Services.AddDbContext<ApplicatinDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MediTechConnectionString")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUser, UserRepository>();
@@ -36,6 +36,8 @@ builder.Services.AddScoped<IMediceneCategory, MediceneCategoryRepository>();
 builder.Services.AddScoped<IMediceneByCategory, MediceneByCategoryRepository>();
 builder.Services.AddScoped<IForgotPasswordEmailVerification, ForgotPasswordEmailRepository>();
 builder.Services.AddScoped<IHospitalsLocations, AddHospitalsLocationsRepository>();
+builder.Services.AddScoped<ISingleSpecialityDetails, AddSingleSpeialityDetailsRepository>();
+builder.Services.AddScoped<ISingleVideoSpeciality, AddSingleVideoSpecialityRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

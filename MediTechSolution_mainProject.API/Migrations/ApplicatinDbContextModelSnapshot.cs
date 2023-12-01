@@ -112,6 +112,35 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("HospitalsLocations");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddSingleSpecialityDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SId");
+
+                    b.ToTable("AddSingleSpecialityDetails");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CollegesModel", b =>
                 {
                     b.Property<int>("Id")
@@ -398,6 +427,31 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.ToTable("MediceneCategory");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.SingleSpecialityVideo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SVId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideoLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SVId");
+
+                    b.ToTable("SingleSpecialityVideos");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -465,6 +519,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.AddSingleSpecialityDetails", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.MedicalDoctorSpeciality", "MedicalDoctorSpeciality")
+                        .WithMany()
+                        .HasForeignKey("SId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalDoctorSpeciality");
+                });
+
             modelBuilder.Entity("MediTechSolution_mainProject.API.Model.CourseDetailsModel", b =>
                 {
                     b.HasOne("MediTechSolution_mainProject.API.Model.CollegesModel", "CollegesModel")
@@ -504,6 +569,17 @@ namespace MediTechSolution_mainProject.API.Migrations
                         .IsRequired();
 
                     b.Navigation("MediceneCategory");
+                });
+
+            modelBuilder.Entity("MediTechSolution_mainProject.API.Model.SingleSpecialityVideo", b =>
+                {
+                    b.HasOne("MediTechSolution_mainProject.API.Model.MedicalDoctorSpeciality", "MedicalDoctorSpeciality")
+                        .WithMany()
+                        .HasForeignKey("SVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MedicalDoctorSpeciality");
                 });
 #pragma warning restore 612, 618
         }
