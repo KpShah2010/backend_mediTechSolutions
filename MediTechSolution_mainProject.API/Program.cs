@@ -38,6 +38,8 @@ builder.Services.AddScoped<IForgotPasswordEmailVerification, ForgotPasswordEmail
 builder.Services.AddScoped<IHospitalsLocations, AddHospitalsLocationsRepository>();
 builder.Services.AddScoped<ISingleSpecialityDetails, AddSingleSpeialityDetailsRepository>();
 builder.Services.AddScoped<ISingleVideoSpeciality, AddSingleVideoSpecialityRepository>();
+builder.Services.AddScoped<INews, AddNewsRepository>();
+
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

@@ -36,6 +36,7 @@
     <Folder Include="wwwroot\MedicalSpecialityImages\" />
     <Folder Include="wwwroot\CollegesUniversityImages\" />
     <Folder Include="wwwroot\DoctorsImages\" />
+    <Folder Include="wwwroot\News\" />
   </ItemGroup>
 
 </Project>
