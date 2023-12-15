@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Newtonsoft.Json;
+using System.Numerics;
 
 namespace MediTechSolution_mainProject.API.Controller
 {
@@ -27,15 +29,17 @@ namespace MediTechSolution_mainProject.API.Controller
         private readonly ILogin login;
         private readonly IConfiguration configuration;
         private readonly IForgotPasswordEmailVerification forgotPasswordEmailVerification;
+        private readonly IUser user;
 
         public UserController(IUser userRepository, IMapper mapper, ILogin login, 
-            IConfiguration configuration, IForgotPasswordEmailVerification forgotPasswordEmailVerification)
+            IConfiguration configuration, IForgotPasswordEmailVerification forgotPasswordEmailVerification, IUser user)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
             this.login = login;
             this.configuration = configuration;
             this.forgotPasswordEmailVerification = forgotPasswordEmailVerification;
+            this.user = user;
         }
 
 
@@ -116,6 +120,7 @@ namespace MediTechSolution_mainProject.API.Controller
         public async Task<IActionResult> Login([FromForm] LoginRequestDTO loginRequestDTO)
         {
             var userLogin = login.LoginAuthenticate(loginRequestDTO.Username, loginRequestDTO.Password);
+            var singleUsers = user.GetUserByIdAsync(userLogin.Id);
 
             if (userLogin == null)
             {
@@ -123,7 +128,7 @@ namespace MediTechSolution_mainProject.API.Controller
             }
 
             string token = GenerateToken(userLogin);
-            return Ok(new { Token = token });
+            return Ok(new { Token = token});
         }
 
         //=====================
@@ -138,6 +143,7 @@ namespace MediTechSolution_mainProject.API.Controller
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim("UsersDetails", JsonConvert.SerializeObject(user)),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
