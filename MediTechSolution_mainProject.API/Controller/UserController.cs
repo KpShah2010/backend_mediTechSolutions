@@ -120,7 +120,7 @@ namespace MediTechSolution_mainProject.API.Controller
         public async Task<IActionResult> Login([FromForm] LoginRequestDTO loginRequestDTO)
         {
             var userLogin = login.LoginAuthenticate(loginRequestDTO.Username, loginRequestDTO.Password);
-            var singleUsers = user.GetUserByIdAsync(userLogin.Id);
+            //var singleUsers = user.GetUserByIdAsync(userLogin.Id);
 
             if (userLogin == null)
             {

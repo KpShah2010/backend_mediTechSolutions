@@ -40,9 +40,6 @@ namespace MediTechSolution_mainProject.API.Controller
                     $"you very soon." +
                     $" \n\n Best Regards.\n From Medi.Tech Solutions \n\n Your Query: \n {contactDTO.Query}";
 
-
-
-
                 EmailSender emailSender = new EmailSender();
                 emailSender.SendEmail(emailSubject, contactDTO.Email, name, emailMessage).Wait();
 
@@ -73,14 +70,21 @@ namespace MediTechSolution_mainProject.API.Controller
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteContact(int id)
         {
-            var deleteContactID = await contact.DeleteContactAsync(id);
-
-            if (deleteContactID == null)
+            try
             {
-                return NotFound();
-            }
+                var deleteContactID = await contact.DeleteContactAsync(id);
 
-            return Ok(deleteContactID);
+                if (deleteContactID == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(deleteContactID);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }
