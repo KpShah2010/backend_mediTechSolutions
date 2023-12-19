@@ -52,5 +52,20 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
 
             return existingId;
         }
+
+        public async Task<MediceneCategory> UpdateMediceneCategoryAsync(int id, MediceneCategory mediceneCategory)
+        {
+            var existingId = await dbContext.MediceneCategory.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            existingId.MediceneCategoryName = mediceneCategory.MediceneCategoryName;
+            await dbContext.SaveChangesAsync();
+
+            return existingId;
+        }
     }
 }

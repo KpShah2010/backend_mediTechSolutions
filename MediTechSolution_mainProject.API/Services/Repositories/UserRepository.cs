@@ -52,5 +52,28 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
 
             return existingId;
         }
+
+        public async Task<User> UpdateUserByIdAsync(int id, User user)
+        {
+            var existingId = await applicatinDbContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            existingId.Fname = user.Fname;
+            existingId.Email = user.Email;
+            existingId.Lname = user.Lname;
+            existingId.Username = user.Username;
+            existingId.State = user.State;
+            existingId.City = user.City;
+            existingId.Country = user.Country;
+            existingId.Gender = user.Gender;
+            existingId.ProfileImage = user.ProfileImage;
+
+            await applicatinDbContext.SaveChangesAsync();
+            return existingId;
+        }
     }
 }

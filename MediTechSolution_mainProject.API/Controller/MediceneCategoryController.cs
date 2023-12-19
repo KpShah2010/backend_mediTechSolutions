@@ -68,5 +68,23 @@ namespace MediTechSolution_mainProject.API.Controller
 
             return Ok(new { message = "Found Id", delCatById });
         }
+
+
+        [HttpPut("update/{id}")]    
+        public async Task<IActionResult> update(int id, [FromForm] EditMediceneCategoryRequestDTO editMediceneCategoryRequestDTO)
+        {
+            try 
+            {
+                var domainModel = mapper.Map<MediceneCategory>(editMediceneCategoryRequestDTO);
+                await mediceneCategory.UpdateMediceneCategoryAsync(id, domainModel);
+                var DTOmodel = mapper.Map<EditMediceneCategoryRequestDTO>(domainModel);
+
+                return Ok(DTOmodel);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

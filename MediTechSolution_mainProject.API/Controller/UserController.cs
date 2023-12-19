@@ -235,6 +235,39 @@ namespace MediTechSolution_mainProject.API.Controller
                 return BadRequest(new { message = "internal server error" });
             }
         }
-    
+
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] EditUserRequestDTO editUserRequestDTO)
+        {
+            try
+            {
+                var domainModel = mapper.Map<User>(editUserRequestDTO);
+
+                if (editUserRequestDTO.ProfileImage != null)
+                {
+                    var fileName = $"Image-{Guid.NewGuid()}.{editUserRequestDTO.ProfileImage.FileName}";
+                    var routePath = "wwwroot/Images";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editUserRequestDTO.ProfileImage.CopyToAsync(stream);
+                    }
+                    domainModel.ProfileImage = fileName;
+                }
+
+                await user.UpdateUserByIdAsync(id, domainModel);
+
+                var DTOModel = mapper.Map<EditUserRequestDTO>(domainModel);
+
+                return Ok(DTOModel);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

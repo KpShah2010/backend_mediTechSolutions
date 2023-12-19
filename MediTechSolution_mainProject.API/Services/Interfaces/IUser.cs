@@ -8,5 +8,6 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
         Task<List<User>> GetAllUserAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<User> DeleteUserByIdAsync(int id);
+        Task<User> UpdateUserByIdAsync(int id, User user);
     }
 }

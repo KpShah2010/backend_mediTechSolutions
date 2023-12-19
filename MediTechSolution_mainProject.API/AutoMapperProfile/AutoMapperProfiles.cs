@@ -27,6 +27,8 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<AddSingleSpecialityDetails, AddSingleSpecialityDTO>().ReverseMap();
             CreateMap<SingleSpecialityVideo, AddSingleVideoSpecialityDTO>().ReverseMap();
             CreateMap<News, AddNewsDTO>().ReverseMap();
+            CreateMap<User, EditUserRequestDTO>().ReverseMap();
+            CreateMap<MediceneCategory, EditMediceneCategoryRequestDTO>().ReverseMap();
         }
     }
 }
