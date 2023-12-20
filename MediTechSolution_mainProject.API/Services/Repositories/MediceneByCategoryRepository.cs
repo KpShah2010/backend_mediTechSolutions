@@ -69,6 +69,7 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             existingId.SideEffect = mediceneByCategory.SideEffect;
             existingId.MediceneCategoryId = mediceneByCategory.MediceneCategoryId;
 
+            await dbContext.SaveChangesAsync();
             return existingId;
         }
     }

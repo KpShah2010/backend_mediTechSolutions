@@ -33,7 +33,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
-        { 
+        {
             var mediceneByCatId = await mediceneByCategory.GetAllMediceneByCategoryAsync();
 
             return Ok(mediceneByCatId);
@@ -42,7 +42,7 @@ namespace MediTechSolution_mainProject.API.Controller
 
         [HttpGet("byId/{id}")]
         public async Task<IActionResult> GetById(int id)
-        { 
+        {
             var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
 
             if (mediceneById == null)
@@ -68,5 +68,23 @@ namespace MediTechSolution_mainProject.API.Controller
 
             return Ok(new { message = "record deleted successfully" });
         }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm]EditMediceneByCategoryRequestDTO editMediceneByCategoryRequestDTO)
+        {
+            try
+            {
+                var domainModel = mapper.Map<MediceneByCategory>(editMediceneByCategoryRequestDTO);
+                await mediceneByCategory.UpdateMediceneCategoryAsync(id, domainModel);
+                var DTOModel = mapper.Map<EditMediceneByCategoryRequestDTO>(domainModel);
+
+                return Ok(DTOModel);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
-}
+}   
