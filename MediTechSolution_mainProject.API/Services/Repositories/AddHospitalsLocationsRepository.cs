@@ -54,9 +54,9 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             return existingId;
         }
 
-        public async Task<AddHospitalsLocations> UpdateHospitalsLocationAsync(AddHospitalsLocations addHospitalsLocations)
+        public async Task<AddHospitalsLocations> UpdateHospitalsLocationAsync(int id, AddHospitalsLocations addHospitalsLocations)
         {
-            var existingId = await dbContext.HospitalsLocations.Where(x => x.Id == addHospitalsLocations.Id).FirstOrDefaultAsync();
+            var existingId = await dbContext.HospitalsLocations.Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (existingId == null)
             {
@@ -67,6 +67,7 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             existingId.LocationLink = addHospitalsLocations.LocationLink;
             existingId.Address = addHospitalsLocations.Address;
             existingId.PhoneNumber = addHospitalsLocations.PhoneNumber;
+            existingId.Image = addHospitalsLocations.Image;
 
             await dbContext.SaveChangesAsync();
 

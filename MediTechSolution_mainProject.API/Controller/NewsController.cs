@@ -66,5 +66,50 @@ namespace MediTechSolution_mainProject.API.Controller
                 return BadRequest(new { message = e });
             }
         }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteNews(int id)
+        {
+            try
+            {
+                return Ok(await news.DeleteNewsAsync(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateNews(int id, [FromForm] EditNewsRequestDTO editNewsRequestDTO)
+        {
+            try
+            {
+                var DomainModel = mapper.Map<News>(editNewsRequestDTO);
+
+                if (editNewsRequestDTO.Image != null)
+                {
+                    var fileName = $"Image-{Guid.NewGuid()}.{editNewsRequestDTO.Image.FileName}";
+                    var routePath = "wwwroot/News";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editNewsRequestDTO.Image.CopyToAsync(stream);
+                    }
+                    DomainModel.Image = fileName;
+                }
+
+                await news.UpdateNewsAsync(id, DomainModel);
+
+                var DomainDTO = mapper.Map<EditNewsRequestDTO>(DomainModel);
+                return Ok(DomainDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

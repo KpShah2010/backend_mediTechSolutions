@@ -21,6 +21,21 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             return addSingleSpecialityDetails;
         }
 
+        public async Task<AddSingleSpecialityDetails> DeleteSingleSpecialityDetailsAsync(int id)
+        {
+            var existingId = await dbContext.AddSingleSpecialityDetails.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            dbContext.AddSingleSpecialityDetails.Remove(existingId);
+            await dbContext.SaveChangesAsync();
+
+            return existingId;
+        }
+
         public async Task<List<AddSingleSpecialityDetails>> GetAllSingleSpecialityDetailsAsync()
         {
             return await dbContext.AddSingleSpecialityDetails.Include(n => n.MedicalDoctorSpeciality).ToListAsync();
@@ -34,6 +49,22 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             {
                 return null;
             }
+
+            return existingId;
+        }
+
+        public async Task<AddSingleSpecialityDetails> UpdateSingleSpecialityDetailsAsync(int id, AddSingleSpecialityDetails addSingleSpecialityDetails)
+        {
+            var existingId = await dbContext.AddSingleSpecialityDetails.Include(n => n.MedicalDoctorSpeciality).Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            existingId.Description = addSingleSpecialityDetails.Description;
+            existingId.Image = addSingleSpecialityDetails.Image;
+            existingId.SId = addSingleSpecialityDetails.SId;
 
             return existingId;
         }

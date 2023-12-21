@@ -30,6 +30,9 @@ namespace MediTechSolution_mainProject.API.AutoMapperProfile
             CreateMap<User, EditUserRequestDTO>().ReverseMap();
             CreateMap<MediceneCategory, EditMediceneCategoryRequestDTO>().ReverseMap();
             CreateMap<MediceneByCategory, EditMediceneByCategoryRequestDTO>().ReverseMap();
+            CreateMap<News, EditNewsRequestDTO>().ReverseMap();
+            CreateMap<AddHospitalCityNames, EditHospitalsCitiesRequestDTO>().ReverseMap();
+            CreateMap<AddHospitalsLocations, EditHospitalsLocationRequestDTO>().ReverseMap();
         }
     }
 }

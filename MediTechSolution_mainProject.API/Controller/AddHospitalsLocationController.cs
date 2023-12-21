@@ -85,5 +85,37 @@ namespace MediTechSolution_mainProject.API.Controller
                 return BadRequest(new { message = e });
             }
         }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateLocations(int id, [FromForm]EditHospitalsLocationRequestDTO editHospitalsLocationRequestDTO)
+        {
+            try
+            {
+                var DomainModel = mapper.Map<AddHospitalsLocations>(editHospitalsLocationRequestDTO);
+
+                if (editHospitalsLocationRequestDTO.Image != null)
+                {
+                    var fileName = $"Image-{Guid.NewGuid()}.{editHospitalsLocationRequestDTO.Image.FileName}";
+                    var routePath = "wwwroot/HospitalCityImages";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editHospitalsLocationRequestDTO.Image.CopyToAsync(stream);
+                    }
+                    DomainModel.Image = fileName;
+                }
+
+                await hospitalsLocations.UpdateHospitalsLocationAsync(id, DomainModel);
+
+                var DomainDTO = mapper.Map<EditHospitalsLocationRequestDTO>(DomainModel);
+
+                return Ok(DomainDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

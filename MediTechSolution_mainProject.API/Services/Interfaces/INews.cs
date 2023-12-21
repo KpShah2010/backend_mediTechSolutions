@@ -8,5 +8,6 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
         Task<List<News>> GetAllNewsAsync();
         Task<News> GetNewsByIdAsync(int id);
         Task<News> DeleteNewsAsync(int id);
+        Task<News> UpdateNewsAsync(int id, News news);
     }
 }

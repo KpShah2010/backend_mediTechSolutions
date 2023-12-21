@@ -52,5 +52,22 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
 
             return existingId;
         }
+
+        public async Task<News> UpdateNewsAsync(int id, News news)
+        {
+            var existingId = await dbContext.News.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (existingId == null)
+            {
+                return null;
+            }
+
+            existingId.Title = news.Title;
+            existingId.Description = news.Description;
+            existingId.Image = news.Image;
+
+            await dbContext.SaveChangesAsync();
+            return existingId;
+        }
     }
 }

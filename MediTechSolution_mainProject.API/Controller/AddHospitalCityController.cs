@@ -103,7 +103,7 @@ namespace MediTechSolution_mainProject.API.Controller
         // Delete Hospitals Cities names and images
         //=========================================
 
-        [HttpDelete, Route("delete")]
+        [HttpDelete, Route("delete/{id}")]
         public async Task<IActionResult> DeleteHospitalCities(int id)
         {
             try
@@ -118,19 +118,35 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
-        [HttpPut, Route("update")]
-        public async Task<IActionResult> UpdateHospitalCity(int id, AddHospitalCityNames addHospitalCityNames)
+        [HttpPut, Route("update/{id}")]
+        public async Task<IActionResult> UpdateHospitalCity(int id, [FromForm]EditHospitalsCitiesRequestDTO editHospitalsCitiesRequestDTO)
         {
-            var existId = await hospitalCityRepository.GetSingleHospitalsCitiesAsync(id);
-            
-            if (existId == null)
+            try
             {
-                return NotFound();
-            }
-            
-            var updateHosp = await hospitalCityRepository.UpdateHospitalsCitiesAsync(id, addHospitalCityNames);
+                var DomainModel = mapper.Map<AddHospitalCityNames>(editHospitalsCitiesRequestDTO);
 
-            return Ok(updateHosp);
+                if (editHospitalsCitiesRequestDTO.Image != null)
+                {
+                    var fileName = $"Image-{Guid.NewGuid()}.{editHospitalsCitiesRequestDTO.Image.FileName}";
+                    var routePath = "wwwroot/HospitalCityImages";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editHospitalsCitiesRequestDTO.Image.CopyToAsync(stream);
+                    }
+                    DomainModel.Image = fileName;
+                }
+
+                await hospitalCityRepository.UpdateHospitalsCitiesAsync(id, DomainModel);
+
+                var DomainDTO = mapper.Map<EditHospitalsCitiesRequestDTO>(DomainModel);
+
+                return Ok(DomainDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
     }

@@ -8,6 +8,6 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
         Task<List<AddHospitalsLocations>> GetAllHospitalsLocationAsync();
         Task<AddHospitalsLocations> GetHospitalsLocationByIdAsync(int id);
         Task<AddHospitalsLocations> DeleteHospitalsLocationAsync(int id);
-        Task<AddHospitalsLocations> UpdateHospitalsLocationAsync(AddHospitalsLocations addHospitalsLocations);
+        Task<AddHospitalsLocations> UpdateHospitalsLocationAsync(int id, AddHospitalsLocations addHospitalsLocations);
     }
 }
