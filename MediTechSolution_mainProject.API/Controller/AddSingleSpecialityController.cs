@@ -89,5 +89,51 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var del = await singleSpecialityDetails.DeleteSingleSpecialityDetailsAsync(id);
+                return Ok(del);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] EditSingleSpecialityRequestDTO editSingleSpecialityRequestDTO)
+        {
+            try
+            {
+                var domainModel = mapper.Map<AddSingleSpecialityDetails>(editSingleSpecialityRequestDTO);
+
+                if (editSingleSpecialityRequestDTO.Image != null)
+                {
+                    var fileName = $"Image-{Guid.NewGuid()}.{editSingleSpecialityRequestDTO.Image.FileName}";
+                    var routePath = "wwwroot/MedicalSpecialityImages";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editSingleSpecialityRequestDTO.Image.CopyToAsync(stream);
+                    }
+                    domainModel.Image = fileName;
+                }
+
+                await singleSpecialityDetails.UpdateSingleSpecialityDetailsAsync(id, domainModel);
+
+                var domainDTO = mapper.Map<EditSingleSpecialityRequestDTO>(domainModel);
+
+                return Ok(domainDTO);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

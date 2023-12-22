@@ -65,6 +65,7 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             existingId.Description = addSingleSpecialityDetails.Description;
             existingId.Image = addSingleSpecialityDetails.Image;
             existingId.SId = addSingleSpecialityDetails.SId;
+            await dbContext.SaveChangesAsync();
 
             return existingId;
         }
