@@ -73,7 +73,7 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             return doctors;
         }
 
-        public async Task<Doctor> UpdateDoctorAsync(int id, bool isAccepted)
+        public async Task<Doctor> UpdateDoctorAsync(int id, bool isAccepted) 
         {
             var existingId = await dbContext.Doctors.Where(x => x.Id == id).FirstOrDefaultAsync();
 
