@@ -4,6 +4,7 @@ using MediTechSolution_mainProject.API.Data;
 using MediTechSolution_mainProject.API.DTO;
 using MediTechSolution_mainProject.API.Model;
 using MediTechSolution_mainProject.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace MediTechSolution_mainProject.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class ContactController : ControllerBase
     {
         private readonly IContact contact;
