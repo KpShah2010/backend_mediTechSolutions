@@ -10,7 +10,6 @@ namespace MediTechSolution_mainProject.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
 
     public class AddHelpDesksController : ControllerBase
     {
@@ -69,6 +68,5 @@ namespace MediTechSolution_mainProject.API.Controller
                 return BadRequest(e.Message);
             }
         }
-
     }
 }
