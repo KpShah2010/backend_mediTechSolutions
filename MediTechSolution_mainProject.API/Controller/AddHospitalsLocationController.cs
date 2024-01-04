@@ -39,7 +39,7 @@ namespace MediTechSolution_mainProject.API.Controller
                     }
                     domainModel.Image = fileName;
                 }
-
+                  
                 await hospitalsLocations.CreateHospitalsLocationAsync(domainModel);
 
                 var DomainDTO = mapper.Map<AddHospitalLocationRequestDTO>(domainModel);
