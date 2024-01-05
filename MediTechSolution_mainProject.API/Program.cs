@@ -40,7 +40,7 @@ builder.Services.AddScoped<ISingleSpecialityDetails, AddSingleSpeialityDetailsRe
 builder.Services.AddScoped<ISingleVideoSpeciality, AddSingleVideoSpecialityRepository>();
 builder.Services.AddScoped<INews, AddNewsRepository>();
 builder.Services.AddScoped<IHelpDesk, AddHelpDesksRepository>();
-
+builder.Services.AddScoped<ISendingRequestToDoctor, SendingRequestToDoctorRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

@@ -3,6 +3,7 @@ using MediTechSolution_mainProject.API.DTO;
 using MediTechSolution_mainProject.API.Model;
 using MediTechSolution_mainProject.API.Services.Interfaces;
 using MediTechSolution_mainProject.API.Services.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

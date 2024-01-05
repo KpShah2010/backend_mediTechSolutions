@@ -12,7 +12,6 @@ namespace MediTechSolution_mainProject.API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-
     public class ContactController : ControllerBase
     {
         private readonly IContact contact;
