@@ -20,35 +20,35 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromForm] SendingRequestToDoctorDTO sendingRequestToDoctorDTO)
+        public async Task<IActionResult> CreateRequest([FromForm] SendingRequestToDoctorDTO sendingRequestToDoctorDTO)
         {
             try
             {
-                var DomainMOdel = mapper.Map<SendingRequestToDoctor>(sendingRequestToDoctorDTO);
-                await sendingRequestToDoctor.AddSendingRequestToDoctorAsync(DomainMOdel);
-                var DomainDTO = mapper.Map<SendingRequestToDoctorDTO>(DomainMOdel);
+                var DomainModel = mapper.Map<SendingRequestToDoctor>(sendingRequestToDoctorDTO);
+                await sendingRequestToDoctor.SendToDoctorAsync(DomainModel);
+                var DomainDTO = mapper.Map<SendingRequestToDoctorDTO>(DomainModel);
 
                 return Ok(DomainDTO);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest(ex.Message);
             }
         }
 
 
-
         [HttpGet("get")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllRequest()
         {
             try
             {
-                return Ok(await sendingRequestToDoctor.GetALlSendingRequestAsync());
+                return Ok(await sendingRequestToDoctor.GetAllSendToDoctorAsync());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -24,7 +24,9 @@ namespace MediTechSolution_mainProject.API.Data
         public DbSet<AddSingleSpecialityDetails> AddSingleSpecialityDetails { get; set; }
         public DbSet<SingleSpecialityVideo> SingleSpecialityVideos { get; set; }
         public DbSet<News> News { get; set; }
-        public DbSet<AddHelpDeskModel> AddHelpDesks { get; set; }
+        public DbSet<AddHelpDeskModel> AddHelpDesk { get; set; }
         public DbSet<SendingRequestToDoctor> SendingRequestToDoctors { get; set; }
+        public DbSet<ReplyToPatientsModel> ReplyToPatientsModels { get; set; }
+        public DbSet<Slots> Slots { get; set; }
     }
 }

@@ -4,8 +4,7 @@ namespace MediTechSolution_mainProject.API.Services.Interfaces
 {
     public interface ISendingRequestToDoctor
     {
-        Task<SendingRequestToDoctor> AddSendingRequestToDoctorAsync(SendingRequestToDoctor sendingRequestToDoctor);
-
-        Task<List<SendingRequestToDoctor>> GetALlSendingRequestAsync();
+        Task<SendingRequestToDoctor> SendToDoctorAsync(SendingRequestToDoctor sendingRequestToDoctor);
+        Task<List<SendingRequestToDoctor>> GetAllSendToDoctorAsync();
     }
 }

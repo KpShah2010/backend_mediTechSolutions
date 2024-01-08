@@ -39,8 +39,10 @@ builder.Services.AddScoped<IHospitalsLocations, AddHospitalsLocationsRepository>
 builder.Services.AddScoped<ISingleSpecialityDetails, AddSingleSpeialityDetailsRepository>();
 builder.Services.AddScoped<ISingleVideoSpeciality, AddSingleVideoSpecialityRepository>();
 builder.Services.AddScoped<INews, AddNewsRepository>();
-builder.Services.AddScoped<IHelpDesk, AddHelpDesksRepository>();
 builder.Services.AddScoped<ISendingRequestToDoctor, SendingRequestToDoctorRepository>();
+builder.Services.AddScoped<IReplyToPatients, ReplyToPatientsRepository>();
+builder.Services.AddScoped<ISlots, SlotsRepository>();
+
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

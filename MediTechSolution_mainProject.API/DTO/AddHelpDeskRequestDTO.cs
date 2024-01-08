@@ -4,7 +4,8 @@ namespace MediTechSolution_mainProject.API.DTO
 {
     public class AddHelpDeskRequestDTO
     {
-        public string Issues { get; set; }
-        public int DocId { get; set; }
+        public Guid ticketId { get; set; }
+        public string issues { get; set; }
+        public int doctId { get; set; }
     }
 }

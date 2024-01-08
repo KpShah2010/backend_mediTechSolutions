@@ -14,17 +14,16 @@ namespace MediTechSolution_mainProject.API.Services.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<SendingRequestToDoctor> AddSendingRequestToDoctorAsync(SendingRequestToDoctor sendingRequestToDoctor)
+        public async Task<List<SendingRequestToDoctor>> GetAllSendToDoctorAsync()
+        {
+            return await dbContext.SendingRequestToDoctors.Include(u => u.User).Include(d => d.Doctor).ToListAsync();
+        }
+
+        public async Task<SendingRequestToDoctor> SendToDoctorAsync(SendingRequestToDoctor sendingRequestToDoctor)
         {
             await dbContext.SendingRequestToDoctors.AddAsync(sendingRequestToDoctor);
             await dbContext.SaveChangesAsync();
-
             return sendingRequestToDoctor;
-        }
-
-        public async Task<List<SendingRequestToDoctor>> GetALlSendingRequestAsync()
-        {
-            return await dbContext.SendingRequestToDoctors.Include(u => u.User).Include(d => d.Doctor).ToListAsync();
         }
     }
 }
