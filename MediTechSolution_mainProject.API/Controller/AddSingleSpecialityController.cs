@@ -11,6 +11,8 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class AddSingleSpecialityController : ControllerBase
     {
+        //constructor
+
         private readonly ISingleSpecialityDetails singleSpecialityDetails;
         private readonly IMapper mapper;
 
@@ -20,6 +22,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //=================================
+        // Adding single speciality details
+        //=================================
 
         [HttpPost("create")]
         public async Task<IActionResult> create([FromForm] AddSingleSpecialityDTO addSingleSpecialityDTO)
@@ -53,6 +59,10 @@ namespace MediTechSolution_mainProject.API.Controller
 
 
 
+        //====================================
+        // Get By Id single speciality details
+        //====================================
+
         [HttpGet("ById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -74,6 +84,10 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==================================
+        // Get All single speciality details
+        //==================================
+
         [HttpGet]
         public async Task<IActionResult> GetAllDetails ()
         {
@@ -90,6 +104,10 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //=================================
+        // Delete single speciality details
+        //=================================
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -104,6 +122,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //=================================
+        // Update single speciality details
+        //=================================
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] EditSingleSpecialityRequestDTO editSingleSpecialityRequestDTO)

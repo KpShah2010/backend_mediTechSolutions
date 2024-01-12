@@ -11,6 +11,8 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class FindADoctorController : ControllerBase
     {
+        // constructor
+
         private readonly IFindADoctor findADoctor;
         private readonly IMapper mapper;
 
@@ -19,6 +21,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.findADoctor = findADoctor;
             this.mapper = mapper;
         }
+
+        //===========================
+        // Adding Doctors for finding
+        //===========================
 
         [HttpPost, Route("findADoctor")]
         public async Task<IActionResult> Create(AddFindADoctorRequestDTO addFindADoctorRequestDTO)
@@ -29,6 +35,11 @@ namespace MediTechSolution_mainProject.API.Controller
 
             return Ok(new { message = "Created Success!" });
         }
+
+
+        //============================
+        // Get All Doctors for finding
+        //============================
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

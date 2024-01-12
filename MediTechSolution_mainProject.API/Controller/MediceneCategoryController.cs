@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class MediceneCategoryController : ControllerBase
     {
+
+        // constructor
+
         private readonly IMediceneCategory mediceneCategory;
         private readonly IMapper mapper;
 
@@ -20,55 +23,104 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //====================================
+        // Add Medicene Category For Medicenes
+        //====================================
+
         [HttpPost, Route("createCat")]
         public async Task<IActionResult> Create([FromForm] AddMediceneCategoryRequestDTO addMediceneCategoryRequestDTO)
         {
-            var medCatDomain = mapper.Map<MediceneCategory>(addMediceneCategoryRequestDTO);
+            try
+            {
+                var medCatDomain = mapper.Map<MediceneCategory>(addMediceneCategoryRequestDTO);
 
-            await mediceneCategory.CreateMediceneCategoryAsync(medCatDomain);
+                await mediceneCategory.CreateMediceneCategoryAsync(medCatDomain);
 
-            mapper.Map<AddMediceneCategoryRequestDTO>(medCatDomain);
+                mapper.Map<AddMediceneCategoryRequestDTO>(medCatDomain);
 
-            return Ok(new { message = "Medical Category Created successfully" });
+                return Ok(new { message = "Medical Category Created successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //========================================
+        // Get All Medicene Category For Medicenes
+        //========================================
 
         [HttpGet]
-        public async Task<IActionResult> getAll() 
+        public async Task<IActionResult> getAll()
         {
-            var fetchedCat = await mediceneCategory.GetMediceneCategoryAsync();
+            try
+            {
+                var fetchedCat = await mediceneCategory.GetMediceneCategoryAsync();
 
-            return Ok(new { message = "fetched" , fetchedCat });
+                return Ok(new { message = "fetched", fetchedCat });
+            }
+            catch (Exception e)
+            { 
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //==========================================
+        // Get By ID Medicene Category For Medicenes
+        //==========================================
 
         [HttpGet, Route("getById")]
         public async Task<IActionResult> GetByIdCategory(int id)
         {
-            var medCatById = await mediceneCategory.GetMediceneCategoryByIdAsync(id);
-
-            if (medCatById == null)
+            try
             {
-                return NotFound(new { message = "Id not found" });
-            }
+                var medCatById = await mediceneCategory.GetMediceneCategoryByIdAsync(id);
 
-            return Ok(new { message = "Found Id", medCatById });
+                if (medCatById == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
+
+                return Ok(new { message = "Found Id", medCatById });
+            }
+            catch (Exception e)
+            { 
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //=======================================
+        // Delete Medicene Category For Medicenes
+        //=======================================
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteByIdCategory(int id)
         {
-            var delCatById = await mediceneCategory.DeleteMediceneCategoryAsync(id);
-
-            if (delCatById == null)
+            try
             {
-                return NotFound(new { message = "Id not found" });
-            }
+                var delCatById = await mediceneCategory.DeleteMediceneCategoryAsync(id);
 
-            return Ok(new { message = "Found Id", delCatById });
+                if (delCatById == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
+
+                return Ok(new { message = "Found Id", delCatById });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //=======================================
+        // Update Medicene Category For Medicenes
+        //=======================================
 
         [HttpPut("update/{id}")]    
         public async Task<IActionResult> update(int id, [FromForm] EditMediceneCategoryRequestDTO editMediceneCategoryRequestDTO)

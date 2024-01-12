@@ -12,6 +12,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class ReplyToPatientsController : ControllerBase
     {
+
+        // constructor
+
         private readonly IReplyToPatients replyToPatients;
         private readonly IMapper mapper;
 
@@ -21,6 +24,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //======================
+        // Add Reply to Patients
+        //======================
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] ReplyToPatientsRequestDTO replyToPatientsRequestDTO)
@@ -70,7 +77,9 @@ namespace MediTechSolution_mainProject.API.Controller
 
 
 
-
+        //==============================
+        // Get All Reply to the Patients
+        //==============================
 
         [HttpGet("get")]
         public async Task<IActionResult> GetAll()

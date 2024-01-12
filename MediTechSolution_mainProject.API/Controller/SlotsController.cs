@@ -12,6 +12,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class SlotsController : ControllerBase
     {
+
+        // constructor
+
         private readonly ISlots slots;
         private readonly IMapper mapper;
 
@@ -22,6 +25,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //======================================
+        // Add Slots Using startTime and endTime
+        //======================================
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] SlotsRequestDTO slotsRequestDTO)
@@ -43,6 +49,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==============
+        // Get All Slots
+        //==============
 
         [HttpGet("get")]
         public async Task<IActionResult> GetAll()
@@ -58,6 +67,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==================
+        // Get Slots By Date
+        //==================
 
         [HttpGet("byDate/{*date}")]
         public async Task<IActionResult> GetDataByDate(string date)

@@ -13,6 +13,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class ContactController : ControllerBase
     {
+
+        // constructor
+
         private readonly IContact contact;
         private readonly IMapper mapper;
 
@@ -21,6 +24,11 @@ namespace MediTechSolution_mainProject.API.Controller
             this.contact = contact;
             this.mapper = mapper;
         }
+
+
+        //========================
+        // Adding Contacts Details
+        //========================
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] AddContactRequestDTO addContactRequestDTO)
@@ -52,6 +60,11 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+
+        //============================
+        // Geting All Contacts Details
+        //============================
+
         [HttpGet]
         public async Task<IActionResult> getAll()
         {
@@ -66,6 +79,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //========================
+        // Delete Contacts Details
+        //========================
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteContact(int id)

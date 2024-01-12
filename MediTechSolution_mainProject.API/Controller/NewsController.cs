@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class NewsController : ControllerBase
     {
+
+        // constructor
+
         private readonly INews news;
         private readonly IMapper mapper;
 
@@ -20,6 +23,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //=========
+        // Add News
+        //=========
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] AddNewsDTO addNewsDTO)
@@ -54,6 +61,10 @@ namespace MediTechSolution_mainProject.API.Controller
 
 
 
+        //=============
+        // Get All News
+        //=============
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -68,6 +79,10 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==================
+        // Delete By ID News
+        //==================
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteNews(int id)
         {
@@ -81,6 +96,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //==================
+        // Update By ID News
+        //==================
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateNews(int id, [FromForm] EditNewsRequestDTO editNewsRequestDTO)

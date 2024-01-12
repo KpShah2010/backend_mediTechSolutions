@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class MediceneByCategoryController : ControllerBase
     {
+
+        // costructor
+
         private readonly IMediceneByCategory mediceneByCategory;
         private readonly IMapper mapper;
 
@@ -20,55 +23,104 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //======================
+        // Add Medicene Category
+        //======================
+
         [HttpPost, Route("create")]
         public async Task<IActionResult> Create([FromForm] AddMediceneByCategoryDTO addMediceneByCategoryDTO)
         {
-            var mediceneByCatDomain = mapper.Map<MediceneByCategory>(addMediceneByCategoryDTO);
-            await mediceneByCategory.CreateMediceneByCategoryAsync(mediceneByCatDomain);
-            mapper.Map<AddMediceneByCategoryDTO>(mediceneByCatDomain);
+            try
+            {
+                var mediceneByCatDomain = mapper.Map<MediceneByCategory>(addMediceneByCategoryDTO);
+                await mediceneByCategory.CreateMediceneByCategoryAsync(mediceneByCatDomain);
+                mapper.Map<AddMediceneByCategoryDTO>(mediceneByCatDomain);
 
-            return Ok(new { message = "Successfully created" });
+                return Ok(new { message = "Successfully created" });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //==========================
+        // Get All Medicene Category
+        //==========================
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var mediceneByCatId = await mediceneByCategory.GetAllMediceneByCategoryAsync();
+            try
+            {
+                var mediceneByCatId = await mediceneByCategory.GetAllMediceneByCategoryAsync();
 
-            return Ok(mediceneByCatId);
+                return Ok(mediceneByCatId);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //============================
+        // Get By ID Medicene Category
+        //============================
 
         [HttpGet("byId/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
-
-            if (mediceneById == null)
+            try
             {
-                return NotFound(new { message = "Id not found" });
-            }
+                var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
 
-            return Ok(mediceneById);
+                if (mediceneById == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
+
+                return Ok(mediceneById);
+            }
+            catch (Exception e)
+            { 
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //===============================
+        // Delete By ID Medicene Category
+        //===============================
 
         [HttpDelete, Route("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
-
-            if (mediceneById == null)
+            try
             {
-                return NotFound(new { message = "Id not found" });
+                var mediceneById = await mediceneByCategory.GetMediceneByCategoryByIdAsync(id);
+
+                if (mediceneById == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
+
+                await mediceneByCategory.DeleteMediceneByCategoryAsync(id);
+
+                return Ok(new { message = "record deleted successfully" });
             }
-
-            await mediceneByCategory.DeleteMediceneByCategoryAsync(id);
-
-            return Ok(new { message = "record deleted successfully" });
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        //=========================
+        // Update Medicene Category
+        //=========================
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm]EditMediceneByCategoryRequestDTO editMediceneByCategoryRequestDTO)

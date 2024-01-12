@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class AppointmentToClientController : ControllerBase
     {
+
+        // constructor
+
         private readonly IAppointmentToClient appointmentToClient;
         private readonly IMapper mapper;
 
@@ -19,6 +22,11 @@ namespace MediTechSolution_mainProject.API.Controller
             this.appointmentToClient = appointmentToClient;
             this.mapper = mapper;
         }
+
+
+        //==============================
+        // Adding Appointment to ptients
+        //==============================
 
         [HttpPost, Route("Add")]
         public async Task<IActionResult> Create([FromForm] AddAppointmnetToClientDTO addAppointmnetToClientDTO)
@@ -32,12 +40,28 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //===============================
+        // Get All Appointment to ptients
+        //===============================
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var allData = await appointmentToClient.GetAllAppointmentToClientAsync();
-            return Ok(allData);
+            try
+            {
+                var allData = await appointmentToClient.GetAllAppointmentToClientAsync();
+                return Ok(allData);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
+
+
+        //====================================
+        // Geting By ID Appointment to ptients
+        //====================================
 
 
         [HttpGet("ById/{id}")]
@@ -56,7 +80,7 @@ namespace MediTechSolution_mainProject.API.Controller
             }
             catch (Exception e)
             {
-                return BadRequest(new { message = "server problem" });
+                return BadRequest(e.Message);
             }
         }
     }

@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class MedicalSpecialityController : ControllerBase
     {
+
+        // constructor
+
         private readonly IMedicalSpeciality medicalSpecialRepository;
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment webHostEnvironment;
@@ -21,6 +24,11 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
             this.webHostEnvironment = webHostEnvironment;
         }
+
+
+        //==========================
+        // Adding Doctors Speciality
+        //==========================
 
 
         [HttpPost, Route("postMedicalSpeciality")]
@@ -59,6 +67,11 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //===========================
+        // Get all Doctors Speciality
+        //===========================
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -74,60 +87,91 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
-        // update medical speciality
+        //==========================
+        // Update Doctors Speciality
+        //==========================
+
         [HttpPut("update/{id}")]
         public async Task<IActionResult> update(int id, [FromForm] EditMedicalSpecialityDTO editMedicalSpecialityDTO)
         {
-            var specialityDomain = mapper.Map<MedicalDoctorSpeciality>(editMedicalSpecialityDTO);
-
-            if (editMedicalSpecialityDTO.SpecialityImage != null)
+            try
             {
-                var fileName = $"Image-{Guid.NewGuid()}.{editMedicalSpecialityDTO.SpecialityImage.FileName}";
-                var routePath = "wwwroot/MedicalSpecialityImages";
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var specialityDomain = mapper.Map<MedicalDoctorSpeciality>(editMedicalSpecialityDTO);
+
+                if (editMedicalSpecialityDTO.SpecialityImage != null)
                 {
-                    await editMedicalSpecialityDTO.SpecialityImage.CopyToAsync(stream);
+                    var fileName = $"Image-{Guid.NewGuid()}.{editMedicalSpecialityDTO.SpecialityImage.FileName}";
+                    var routePath = "wwwroot/MedicalSpecialityImages";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), routePath, fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await editMedicalSpecialityDTO.SpecialityImage.CopyToAsync(stream);
+                    }
+                    specialityDomain.SpecialityImage = fileName;
                 }
-                specialityDomain.SpecialityImage = fileName;
+
+                await medicalSpecialRepository.UpdateMedicalSpecialityAsync(id, specialityDomain);
+
+                mapper.Map<EditMedicalSpecialityDTO>(specialityDomain);
+
+                return Ok(new { message = "data updated" });
             }
-
-            await medicalSpecialRepository.UpdateMedicalSpecialityAsync(id, specialityDomain);
-
-            mapper.Map<EditMedicalSpecialityDTO>(specialityDomain);
-
-            return Ok(new { message = "data updated" });
+            catch (Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
-        // fetch by id
+        
+        //=============================
+        // Get By ID Doctors Speciality
+        //=============================
+
         [HttpGet("ByID/{id}")]
         public async Task<IActionResult> ById(int id)
         {
-            var existid = await medicalSpecialRepository.GetMedicalSpecialityByIdAsync(id);
-            if (existid == null)
+            try
             {
-                return NotFound(new { message = "Id not found" });
-            }
+                var existid = await medicalSpecialRepository.GetMedicalSpecialityByIdAsync(id);
+                if (existid == null)
+                {
+                    return NotFound(new { message = "Id not found" });
+                }
 
-            return Ok(existid);
+                return Ok(existid);
+            }
+            catch(Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
         }
 
 
-        // delete medical speciality
+        //================================
+        // Delete By ID Doctors Speciality
+        //================================
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> delete(int id)
         {
-            var MedicalId = await medicalSpecialRepository.GetMedicalSpecialityByIdAsync(id);
-
-            if (MedicalId == null)
+            try
             {
-                return NotFound();
+                var MedicalId = await medicalSpecialRepository.GetMedicalSpecialityByIdAsync(id);
+
+                if (MedicalId == null)
+                {
+                    return NotFound();
+                }
+
+                await medicalSpecialRepository.DeleteMedicalSpeciality(id);
+
+                return Ok(new { message = "data deleted" });
             }
-
-            await medicalSpecialRepository.DeleteMedicalSpeciality(id);
-
-            return Ok(new { message = "data deleted" });
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

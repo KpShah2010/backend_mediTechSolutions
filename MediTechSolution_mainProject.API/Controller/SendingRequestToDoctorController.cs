@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class SendingRequestToDoctorController : ControllerBase
     {
+
+        // constructor
+
         private readonly ISendingRequestToDoctor sendingRequestToDoctor;
         private readonly IMapper mapper;
 
@@ -20,6 +23,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //========================
+        // Add Sending to Patients
+        //========================
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateRequest([FromForm] SendingRequestToDoctorDTO sendingRequestToDoctorDTO)
@@ -38,6 +45,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //============================
+        // Get All Sending to Patients
+        //============================
 
         [HttpGet("get")]
         public async Task<IActionResult> GetAllRequest()

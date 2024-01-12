@@ -13,6 +13,8 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class AddHospitalCityController : ControllerBase
     {
+        // constructor
+
         private readonly IHospitalCity hospitalCityRepository;
         private readonly IMapper mapper;
 

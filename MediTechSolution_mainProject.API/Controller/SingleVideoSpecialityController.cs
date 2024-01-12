@@ -11,6 +11,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class SingleVideoSpecialityController : ControllerBase
     {
+
+        // constructor
+
         private readonly ISingleVideoSpeciality singleVideoSpeciality;
         private readonly IMapper mapper;
 
@@ -20,6 +23,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //============================
+        // Add Single video speciality
+        //============================
 
         [HttpPost("create")]
         public async Task<IActionResult> create([FromForm] AddSingleVideoSpecialityDTO addSingleVideoSpecialityDTO)
@@ -36,10 +43,14 @@ namespace MediTechSolution_mainProject.API.Controller
             }
             catch(Exception ex) 
             {
-                return BadRequest(new { message = "internal server error" });
+                return BadRequest(ex.Message);
             }
         }
 
+
+        //================================
+        // Get All Single video speciality
+        //================================
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -50,10 +61,14 @@ namespace MediTechSolution_mainProject.API.Controller
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "internal server error" });
+                return BadRequest(ex.Message);
             }
         }
 
+
+        //==================================
+        // Get By ID Single video speciality
+        //==================================
 
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -65,10 +80,14 @@ namespace MediTechSolution_mainProject.API.Controller
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "internal server error" });
+                return BadRequest(ex.Message);
             }
         }
 
+
+        //=====================================
+        // Delete By ID Single video speciality
+        //=====================================
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -79,7 +98,7 @@ namespace MediTechSolution_mainProject.API.Controller
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "internal server error" });
+                return BadRequest(ex.Message);
             }
         }
     }

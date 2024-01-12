@@ -24,6 +24,9 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class UserController : ControllerBase
     {
+
+        // constructor
+
         private readonly IUser userRepository;
         private readonly IMapper mapper;
         private readonly ILogin login;
@@ -160,6 +163,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==================
+        // Delete User By ID
+        //==================
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> deleteUser(int id)
@@ -175,6 +181,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //=======================================
+        // Sending Email for Forgot Password Form
+        //=======================================
 
         [HttpPost("ForgotPaswdEmail")]
         public async Task<IActionResult> ForgotEmail([FromForm] ForgotPasswordEmailDTO forgotPasswordEmailDTO)
@@ -213,7 +222,10 @@ namespace MediTechSolution_mainProject.API.Controller
 
 
 
-        // password update / reset password
+        //================
+        // Forgot Password
+        //================
+
         [HttpPut("resetPassword")]
         public async Task<IActionResult> ResetPasswrd([FromForm] ResetPasswordDTO resetPasswordDTO, [FromForm]ForgotPasswordEmailDTO forgotPasswordEmailDTO)
         {
@@ -237,6 +249,9 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //==================
+        // Update User By ID
+        //==================
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] EditUserRequestDTO editUserRequestDTO)

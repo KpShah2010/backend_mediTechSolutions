@@ -11,6 +11,7 @@ namespace MediTechSolution_mainProject.API.Controller
     [ApiController]
     public class AddHospitalsLocationController : ControllerBase
     {
+        //constructor
         private readonly IHospitalsLocations hospitalsLocations;
         private readonly IMapper mapper;
 
@@ -20,6 +21,10 @@ namespace MediTechSolution_mainProject.API.Controller
             this.mapper = mapper;
         }
 
+
+        //============================
+        // Adding Hospitals Locations
+        //============================
 
         [HttpPost("createLocations")]
         public async Task<IActionResult> Create([FromForm] AddHospitalLocationRequestDTO addHospitalLocationRequestDTO)
@@ -52,6 +57,10 @@ namespace MediTechSolution_mainProject.API.Controller
         }
 
 
+        //============================
+        // Get All Hospitals Locations
+        //============================
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -66,6 +75,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //==============================
+        // Deleting Hospitals Locations
+        //==============================
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -86,6 +99,10 @@ namespace MediTechSolution_mainProject.API.Controller
             }
         }
 
+
+        //=================================
+        // Update by id Hospitals Locations
+        //=================================
 
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateLocations(int id, [FromForm]EditHospitalsLocationRequestDTO editHospitalsLocationRequestDTO)
