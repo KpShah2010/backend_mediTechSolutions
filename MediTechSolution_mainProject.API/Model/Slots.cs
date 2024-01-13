@@ -12,5 +12,6 @@ namespace MediTechSolution_mainProject.API.Model
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
+
     }
 }
