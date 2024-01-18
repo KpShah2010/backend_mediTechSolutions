@@ -130,5 +130,24 @@ namespace MediTechSolution_mainProject.API.Controller
                 return BadRequest(e.Message);
             }
         }
+
+
+
+        //===============
+        // Get By ID News
+        //===============
+
+        [HttpGet("getById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                return Ok(await news.GetNewsByIdAsync(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
